@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Superlative Awards</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    select { margin-bottom: 15px; display: block; width: 100%; max-width: 400px; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+  </style>
+</head>
+<body>
+  <h1>Superlative Awards Form</h1>
+  <form id="superlativeForm" method="POST" action="YOUR_FORM_ENDPOINT_HERE">
+</form>
+
+  <script>
+    const questions = [
+      "Most Likely to Be CEO",
+      "Future Forbes 40 Under 40",
+      "Most Likely to Launch a Startup",
+      "Most Likely to Pivot Careers – Successfully",
+      "Most Likely to Publish a Best-Selling Business Book",
+      "Most Likely to Be on a TEDx Stage",
+      "Most Likely to Join the Alumni Board",
+      "Most Likely to Teach an MBA Class One Day",
+      "Best “Work Smarter Not Harder” Energy",
+      "Most Likely to Say “Synergy” in a Casual Conversation",
+      "Spreadsheet Whisperer",
+      "Most Likely to Have an Excel Sheet for Vacation Planning",
+      "Best Group Project MVP",
+      "Life of the Party",
+      "Biggest Glow-Up",
+      "Most Likely to Host the Best Post-Grad Parties",
+      "Most Likely to Go Viral on LinkedIn",
+      "Cohort Comedian",
+      "Best “Get Sh*t Done” Partner",
+      "Most Likely to Keep the Group Chat Alive Forever",
+      "Most Likely to Use ChatGPT for Their Wedding Vows",
+      "Most Likely to Make a Career Out of Mentoring Others",
+      "Most Likely to Start a Business and Hire Their Friends",
+      "Most Likely to Be Your First Call for Business Advice",
+      "Most Likely to Ghost Corporate America and Move to the Mountains",
+      "Most Likely to Have a Secret Side Hustle That Blows Up on Shark Tank"
+    ];
+
+    const names = [
+      "Chloe Treaster", "Andrew McGraw", "Brock Pasternak", "Wilfredo DeGuzman",
+      "Aya Moustafa", "Courtney Howell", "Abhinay Sharma", "Gabie Bueschel",
+      "Clay Brown", "Fahad Alnahedh", "Roxan Castro", "Ben Macaluso",
+      "Lillie Klemmer", "Lexi Haskins", "Luke Tanner", "Alex Wagner",
+      "Sardor Ergashev", "Claire Westergren", "James Hermansen", "Peter Soonthornprapuet",
+      "Garret Stearns", "Emma Bourgraf", "David Herrera Becerra", "Anthony Nguyen",
+      "Qiaohui Li", "Andrea Barvi"
+    ];
+
+    const usedNames = new Set();
+    const form = document.getElementById('superlativeForm');
+
+    questions.forEach((question, index) => {
+      const label = document.createElement('label');
+      label.textContent = `${index + 1}. ${question}`;
+      const select = document.createElement('select');
+      select.name = `q${index}`;
+      select.dataset.index = index;
+
+      const defaultOption = document.createElement('option');
+      defaultOption.value = "";
+      defaultOption.textContent = "-- Select a name --";
+      select.appendChild(defaultOption);
+
+      names.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+      });
+
+      form.appendChild(label);
+      form.appendChild(select);
+    });
+
+    form.addEventListener('change', () => {
+      const selected = Array.from(form.elements)
+        .filter(el => el.tagName === "SELECT")
+        .map(el => el.value)
+        .filter(v => v !== "");
+
+      const unique = new Set(selected);
+
+      Array.from(form.elements)
+        .filter(el => el.tagName === "SELECT")
+        .forEach(select => {
+          const current = select.value;
+          Array.from(select.options).forEach(opt => {
+            if (opt.value === "" || opt.value === current) {
+              opt.disabled = false;
+            } else {
+              opt.disabled = selected.includes(opt.value);
+            }
+          });
+        });
+    });
+  </script>
+</body>
+</html>
